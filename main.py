@@ -1,26 +1,18 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
 import sympy
 
 
 def main():
-    # mod = 95
+    mod = 95
     print('Encrypt mode:1, Decrypt mode:2, Exit:3')
     while True:
-        mode = input('Mode :')
+        mode = input('Mode:')
         try:
             if mode == '1':
-                p_text = input('Input plain text (Max : 6):')
-                key = input_key()
-                print('Encrypted text :', encrypt(p_text, key))
+                p_text = input('Input plain text (Max:6):')
+                print('Encrypted text:', encrypt(p_text, input_key(), mod))
             elif mode == '2':
-                e_text = input('Input encrypted text (Max : 6):')
-                key = input_key()
-                print('Decrypted text :', encrypt(e_text, key))
+                e_text = input('Input encrypted text (Max:6):')
+                print('Decrypted text:', decrypt(e_text, input_key(), mod))
             elif mode == '3':
                 break
             else:
@@ -35,37 +27,24 @@ def input_key():
     b = input('Input key [b]:')
     c = input('Input key [c]:')
     d = input('Input key [d]:')
-
-    return sympy.Matrix([
-        [a, b],
-        [c, d]
-    ])
+    return sympy.Matrix([[a, b], [c, d]])
 
 
-def encrypt(p_text, key):
-    p_int_list = [(ord(char) - 32) for char in p_text]
-    e, f, g, h, i, j = p_int_list
-    p_mat = sympy.Matrix([
-        [e, f, g],
-        [h, i, j]
-    ])
-    e, f, g, h, i, j = (key * p_mat) % 95
-    enc_int = [e, f, g, h, i, j]
-    enc_text = ''.join(chr(i + 32) for i in enc_int)
+def text_to_mat(text):
+    int_list = [(ord(char) - 32) for char in text]
+    e, f, g, h, i, j = int_list
+    return sympy.Matrix([[e, f, g], [h, i, j]])
+
+
+def encrypt(p_text, key, mod):
+    e, f, g, h, i, j = (key * text_to_mat(p_text)) % mod
+    enc_text = ''.join(chr(i + 32) for i in [e, f, g, h, i, j])
     return enc_text
 
 
-def decrypt(e_text, key):
-    enc_int_list = [(ord(char) - 32) for char in e_text]
-    e, f, g, h, i, j = enc_int_list
-    e_mat = sympy.Matrix([
-        [e, f, g],
-        [h, i, j]
-    ])
-    key_inv = key.inv_mod(95)
-    e, f, g, h, i, j = (key_inv * e_mat) % 95
-    dec_int = [e, f, g, h, i, j]
-    dec_text = ''.join(chr(i + 32) for i in dec_int)
+def decrypt(e_text, key, mod):
+    e, f, g, h, i, j = (key.inv_mod(mod) * text_to_mat(e_text)) % mod
+    dec_text = ''.join(chr(i + 32) for i in [e, f, g, h, i, j])
     return dec_text
 
 
