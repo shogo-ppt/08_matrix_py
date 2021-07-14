@@ -1,13 +1,16 @@
 import sympy
+import random
 
 
 def main():
     mod = 95
-    print('Encrypt mode:1, Decrypt mode:2, Exit:3')
+    print('Select mode\nGenerate key:0, Encrypt mode:1, Decrypt mode:2, Exit:3')
     while True:
         mode = input('Mode:')
         try:
-            if mode == '1':
+            if mode == '0':
+                print(gen_key())
+            elif mode == '1':
                 p_text = input('Input plain text (Max:6):')
                 print('Encrypted text:', encrypt(p_text, input_key(), mod))
             elif mode == '2':
@@ -28,6 +31,11 @@ def input_key():
     c = input('Input key [c]:')
     d = input('Input key [d]:')
     return sympy.Matrix([[a, b], [c, d]])
+
+
+def gen_key():
+    key = [random.randint(0, 9999) for i in range(4)]
+    return key
 
 
 def text_to_mat(text):
