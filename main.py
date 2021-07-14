@@ -1,22 +1,21 @@
 import sympy
-import numpy
 import random
 
 
 def main():
     mod = 95
-    print('Select mode\nGenerate key:0, Encrypt mode:1, Decrypt mode:2, Exit:3')
+    print('<<<Select mode>>>\n| *Generate key:0\n| *Encrypt mode:1\n| *Decrypt mode:2\n| *Exit:3\n')
     while True:
-        mode = input('Mode:')
+        mode = input('Mode >> ')
         try:
             if mode == '0':
-                print(gen_key())
+                print(gen_key(), '\n')
             elif mode == '1':
-                p_text = input('Input plain text: ')
-                print('Encrypted text:', encrypt(p_text, input_key(), mod))
+                p_text = input('Input plain text >> ')
+                print('Encrypted text >>', encrypt(p_text, input_key(), mod), '\n')
             elif mode == '2':
-                e_text = input('Input encrypted text:')
-                print('Decrypted text:', decrypt(e_text, input_key(), mod))
+                e_text = input('Input encrypted text >> ')
+                print('Decrypted text >>', decrypt(e_text, input_key(), mod), '\n')
             elif mode == '3':
                 break
             else:
@@ -26,11 +25,11 @@ def main():
 
 
 def input_key():
-    print('Key form : [[a, b], [c, d]]')
-    a = input('Input key [a]:')
-    b = input('Input key [b]:')
-    c = input('Input key [c]:')
-    d = input('Input key [d]:')
+    print('\nKey form : [[a, b], [c, d]]')
+    a = input('Input key [a] >> ')
+    b = input('Input key [b] >> ')
+    c = input('Input key [c] >> ')
+    d = input('Input key [d] >> ')
     return sympy.Matrix([[a, b], [c, d]])
 
 
