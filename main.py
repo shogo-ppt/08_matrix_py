@@ -9,7 +9,7 @@ def main():
         mode = input('Mode >> ')
         try:
             if mode == '0':
-                print(gen_key(), '\n')
+                print(gen_key(mod), '\n')
             elif mode == '1':
                 p_text = input('Input plain text >> ')
                 print('Encrypted text >>', encrypt(p_text, input_key(), mod), '\n')
@@ -33,11 +33,13 @@ def input_key():
     return sympy.Matrix([[a, b], [c, d]])
 
 
-def gen_key():
+def gen_key(mod):
     try:
-        key = [random.randint(0, 9999) for i in range(4)]
+        key = [random.randint(0, mod) for i in range(4)]
+        dec_key = sympy.Matrix(2, 2, key).inv_mod(mod)
     except sympy.matrices.common.NonInvertibleMatrixError:
-        gen_key()
+        key = gen_key(mod)
+        # print('hello')
     return key
 
 
