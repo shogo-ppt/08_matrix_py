@@ -34,7 +34,10 @@ def input_key():
 
 
 def gen_key():
-    key = [random.randint(0, 9999) for i in range(4)]
+    try:
+        key = [random.randint(0, 9999) for i in range(4)]
+    except sympy.matrices.common.NonInvertibleMatrixError:
+        gen_key()
     return key
 
 
