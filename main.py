@@ -39,7 +39,6 @@ def gen_key(mod):
         dec_key = sympy.Matrix(2, 2, key).inv_mod(mod)
     except sympy.matrices.common.NonInvertibleMatrixError:
         key = gen_key(mod)
-        # print('hello')
     return key
 
 
